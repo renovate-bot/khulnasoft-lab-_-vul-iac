@@ -1,7 +1,7 @@
 package ssm
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ssm"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ssm"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

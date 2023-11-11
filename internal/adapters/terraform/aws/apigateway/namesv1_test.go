@@ -3,7 +3,7 @@ package apigateway
 import (
 	"testing"
 
-	v1 "github.com/khulnasoft-lab/defsec/pkg/providers/aws/apigateway/v1"
+	v1 "github.com/aquasecurity/defsec/pkg/providers/aws/apigateway/v1"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 )

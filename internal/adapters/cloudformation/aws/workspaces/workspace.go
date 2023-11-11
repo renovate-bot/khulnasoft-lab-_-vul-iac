@@ -1,7 +1,7 @@
 package workspaces
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/workspaces"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/workspaces"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

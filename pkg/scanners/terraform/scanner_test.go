@@ -7,14 +7,14 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -36,6 +36,26 @@ var alwaysFailRule = scan.Rule{
 	},
 }
 
+const emptyBucketRule = `
+# METADATA
+# schemas:
+# - input: schema.input
+# custom:
+#   avd_id: AVD-AWS-0001
+#   input:
+#     selector:
+#     - type: cloud
+#       subtypes:
+#         - service: s3
+#           provider: aws
+package defsec.test.aws1
+deny[res] {
+  bucket := input.aws.s3.buckets[_]
+  bucket.name.value == ""
+  res := result.new("The name of the bucket must not be empty", bucket)
+}
+`
+
 func scanWithOptions(t *testing.T, code string, opt ...options.ScannerOption) scan.Results {
 
 	fs := testutil.CreateFS(t, map[string]string{
@@ -49,7 +69,7 @@ func scanWithOptions(t *testing.T, code string, opt ...options.ScannerOption) sc
 }
 
 func Test_OptionWithAlternativeIDProvider(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	options := []options.ScannerOption{
@@ -67,7 +87,7 @@ resource "something" "else" {}
 }
 
 func Test_VulOptionWithAlternativeIDProvider(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	options := []options.ScannerOption{
@@ -85,7 +105,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionWithSeverityOverrides(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	options := []options.ScannerOption{
@@ -99,7 +119,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionWithDebugWriter(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	buffer := bytes.NewBuffer([]byte{})
@@ -114,7 +134,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionNoIgnores(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	scannerOpts := []options.ScannerOption{
@@ -130,7 +150,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionExcludeRules(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	options := []options.ScannerOption{
@@ -145,7 +165,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionIncludeRules(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	scannerOpts := []options.ScannerOption{
@@ -160,7 +180,7 @@ resource "something" "else" {}
 }
 
 func Test_OptionWithMinimumSeverity(t *testing.T) {
-	reg := rules.Register(alwaysFailRule, nil)
+	reg := rules.Register(alwaysFailRule)
 	defer rules.Deregister(reg)
 
 	scannerOpts := []options.ScannerOption{
@@ -498,7 +518,7 @@ deny[res] {
 		options.ScannerWithDebug(debugLog),
 		options.ScannerWithPolicyDirs("rules"),
 		options.ScannerWithRegoOnly(true),
-		ScannerWithEmbeddedLibraries(true),
+		options.ScannerWithEmbeddedLibraries(true),
 	)
 
 	results, err := scanner.ScanFS(context.TODO(), fs, "code")
@@ -610,7 +630,7 @@ deny[res] {
 		options.ScannerWithTrace(debugLog),
 		options.ScannerWithPolicyDirs("rules"),
 		options.ScannerWithRegoOnly(true),
-		ScannerWithEmbeddedLibraries(true),
+		options.ScannerWithEmbeddedLibraries(true),
 	)
 
 	defer func() {
@@ -702,7 +722,7 @@ deny[res] {
 		options.ScannerWithDebug(debugLog),
 		options.ScannerWithPolicyDirs("rules"),
 		options.ScannerWithRegoOnly(true),
-		ScannerWithEmbeddedLibraries(true),
+		options.ScannerWithEmbeddedLibraries(true),
 	)
 
 	results, err := scanner.ScanFS(context.TODO(), fs, "code")
@@ -1005,4 +1025,256 @@ deny[res] {
 		fmt.Printf("Debug logs:\n%s\n", debugLog.String())
 	}
 
+}
+
+func Test_OptionWithConfigsFileSystem(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"code/main.tf": `
+variable "bucket_name" {
+  type = string
+}
+resource "aws_s3_bucket" "main" {
+  bucket = var.bucket_name
+}
+`,
+		"rules/bucket_name.rego": emptyBucketRule,
+	})
+
+	configsFS := testutil.CreateFS(t, map[string]string{
+		"main.tfvars": `
+bucket_name = "test"
+`,
+	})
+
+	debugLog := bytes.NewBuffer([]byte{})
+	scanner := New(
+		options.ScannerWithDebug(debugLog),
+		options.ScannerWithPolicyDirs("rules"),
+		options.ScannerWithPolicyFilesystem(fs),
+		options.ScannerWithRegoOnly(true),
+		options.ScannerWithEmbeddedLibraries(false),
+		options.ScannerWithEmbeddedPolicies(false),
+		ScannerWithAllDirectories(true),
+		ScannerWithTFVarsPaths("main.tfvars"),
+		ScannerWithConfigsFileSystem(configsFS),
+	)
+
+	results, err := scanner.ScanFS(context.TODO(), fs, "code")
+	require.NoError(t, err)
+
+	assert.Len(t, results, 1)
+	assert.Len(t, results.GetPassed(), 1)
+
+	if t.Failed() {
+		fmt.Printf("Debug logs:\n%s\n", debugLog.String())
+	}
+}
+
+func Test_OptionWithConfigsFileSystem_ConfigInCode(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"code/main.tf": `
+variable "bucket_name" {
+  type = string
+}
+resource "aws_s3_bucket" "main" {
+  bucket = var.bucket_name
+}
+`,
+		"rules/bucket_name.rego": emptyBucketRule,
+		"main.tfvars": `
+bucket_name = "test"
+`,
+	})
+
+	debugLog := bytes.NewBuffer([]byte{})
+	scanner := New(
+		options.ScannerWithDebug(debugLog),
+		options.ScannerWithPolicyDirs("rules"),
+		options.ScannerWithPolicyFilesystem(fs),
+		options.ScannerWithRegoOnly(true),
+		options.ScannerWithEmbeddedLibraries(false),
+		options.ScannerWithEmbeddedPolicies(false),
+		ScannerWithAllDirectories(true),
+		ScannerWithTFVarsPaths("main.tfvars"),
+		ScannerWithConfigsFileSystem(fs),
+	)
+
+	results, err := scanner.ScanFS(context.TODO(), fs, "code")
+	require.NoError(t, err)
+
+	assert.Len(t, results, 1)
+	assert.Len(t, results.GetPassed(), 1)
+
+	if t.Failed() {
+		fmt.Printf("Debug logs:\n%s\n", debugLog.String())
+	}
+}
+
+func Test_DoNotScanNonRootModules(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"/code/app1/main.tf": `
+module "s3" {
+  source      = "./modules/s3"
+  bucket_name = "test"
+}
+`,
+		"/code/app1/modules/s3/main.tf": `
+variable "bucket_name" {
+  type = string
+}
+
+resource "aws_s3_bucket" "main" {
+  bucket = var.bucket_name
+}
+`,
+		"/code/app1/app2/main.tf": `
+module "s3" {
+  source      = "../modules/s3"
+  bucket_name = "test"
+}
+
+module "ec2" {
+  source = "./modules/ec2"
+}
+`,
+		"/code/app1/app2/modules/ec2/main.tf": `
+variable "security_group_description" {
+	type = string
+}
+resource "aws_security_group" "main" {
+	description = var.security_group_description
+}
+`,
+		"/rules/bucket_name.rego": `
+# METADATA
+# schemas:
+# - input: schema.input
+# custom:
+#   avd_id: AVD-AWS-0001
+#   input:
+#     selector:
+#     - type: cloud
+#       subtypes:
+#         - service: s3
+#           provider: aws
+package defsec.test.aws1
+deny[res] {
+  bucket := input.aws.s3.buckets[_]
+  bucket.name.value == ""
+  res := result.new("The name of the bucket must not be empty", bucket)
+}
+`,
+		"/rules/sec_group_description.rego": `
+# METADATA
+# schemas:
+# - input: schema.input
+# custom:
+#   avd_id: AVD-AWS-0002
+#   input:
+#     selector:
+#     - type: cloud
+#       subtypes:
+#         - service: ec2
+#           provider: aws
+package defsec.test.aws2
+deny[res] {
+  group := input.aws.ec2.securitygroups[_]
+  group.description.value == ""
+  res := result.new("The description of the security group must not be empty", group)
+}
+`,
+	})
+
+	debugLog := bytes.NewBuffer([]byte{})
+	scanner := New(
+		options.ScannerWithDebug(debugLog),
+		options.ScannerWithPolicyFilesystem(fs),
+		options.ScannerWithPolicyDirs("rules"),
+		options.ScannerWithEmbeddedPolicies(false),
+		options.ScannerWithEmbeddedLibraries(false),
+		options.ScannerWithRegoOnly(true),
+		ScannerWithAllDirectories(true),
+	)
+
+	results, err := scanner.ScanFS(context.TODO(), fs, "code")
+	require.NoError(t, err)
+
+	assert.Len(t, results.GetPassed(), 2)
+	require.Len(t, results.GetFailed(), 1)
+	assert.Equal(t, "AVD-AWS-0002", results.GetFailed()[0].Rule().AVDID)
+
+	if t.Failed() {
+		fmt.Printf("Debug logs:\n%s\n", debugLog.String())
+	}
+}
+
+func Test_RoleRefToOutput(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"code/main.tf": `
+module "this" {
+  source = "./modules/iam"
+}
+
+resource "aws_iam_role_policy" "bad-policy" {
+  name     = "bad-policy"
+  role     = module.this.role_name
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "*"
+        Resource = "*"
+      },
+    ]
+  })
+}
+		`,
+		"code/modules/iam/main.tf": `
+resource "aws_iam_role" "example" {
+  name               = "example"
+  assume_role_policy = jsonencode({})
+}
+
+output "role_name" {
+  value = aws_iam_role.example.id
+}
+		`,
+		"rules/test.rego": `
+# METADATA
+# schemas:
+# - input: schema.input
+# custom:
+#   avd_id: AVD-AWS-0001
+#   input:
+#     selector:
+#     - type: cloud
+#       subtypes:
+#         - service: iam
+#           provider: aws
+package defsec.test.aws1
+deny[res] {
+  policy := input.aws.iam.roles[_].policies[_]
+  policy.name.value == "bad-policy"
+  res := result.new("Deny!", policy)
+}
+		`,
+	})
+
+	debugLog := bytes.NewBuffer([]byte{})
+	scanner := New(
+		options.ScannerWithDebug(debugLog),
+		options.ScannerWithPolicyDirs("rules"),
+		options.ScannerWithPolicyFilesystem(fs),
+		options.ScannerWithRegoOnly(true),
+		options.ScannerWithEmbeddedLibraries(false),
+		options.ScannerWithEmbeddedPolicies(false),
+		ScannerWithAllDirectories(true),
+	)
+
+	results, err := scanner.ScanFS(context.TODO(), fs, "code")
+	require.NoError(t, err)
+
+	assert.Len(t, results, 1)
+	assert.Len(t, results.GetFailed(), 1)
 }

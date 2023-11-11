@@ -3,8 +3,8 @@ package network
 import (
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/nifcloud/network"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/nifcloud/network"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 

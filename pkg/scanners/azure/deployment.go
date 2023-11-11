@@ -3,7 +3,7 @@ package azure
 import (
 	"os"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 type Deployment struct {

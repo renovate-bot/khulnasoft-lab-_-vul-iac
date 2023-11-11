@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 )
 
 func Test_WildcardMatchingOnRequiredLabels(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_WildcardMatchingOnRequiredLabels(t *testing.T) {
 					},
 				},
 			}
-			reg := rules.Register(rule, nil)
+			reg := rules.Register(rule)
 			defer rules.Deregister(reg)
 
 			results := scanHCL(t, test.input)

@@ -1,7 +1,7 @@
 package elasticache
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/elasticache"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/elasticache"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

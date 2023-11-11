@@ -1,7 +1,7 @@
 package elb
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/elb"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/elb"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

@@ -9,11 +9,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego"
-	"github.com/khulnasoft-lab/vul-policies/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego"
+	"github.com/khulnasoft-lab/vul-iac/pkg/types"
 )
 
 type Pool struct {

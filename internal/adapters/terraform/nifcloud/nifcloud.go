@@ -1,8 +1,8 @@
 package nifcloud
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/nifcloud"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/nifcloud"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/nifcloud/computing"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/nifcloud/dns"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/nifcloud/nas"

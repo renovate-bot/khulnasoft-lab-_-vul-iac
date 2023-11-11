@@ -3,12 +3,12 @@ package ecr
 import (
 	"fmt"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ecr"
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/iam"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ecr"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/iam"
 
 	"github.com/liamg/iamgo"
 )

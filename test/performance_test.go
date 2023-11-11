@@ -6,10 +6,10 @@ import (
 	"io/fs"
 	"testing"
 
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform/executor"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform/parser"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 )
 
 func BenchmarkCalculate(b *testing.B) {

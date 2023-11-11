@@ -1,8 +1,8 @@
 package s3
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/iam"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/iam"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	iamAdapter "github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/aws/iam"
 )
 

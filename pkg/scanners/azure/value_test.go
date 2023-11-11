@@ -3,7 +3,7 @@ package azure
 import (
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 

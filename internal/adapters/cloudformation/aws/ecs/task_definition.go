@@ -1,8 +1,8 @@
 package ecs
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ecs"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ecs"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

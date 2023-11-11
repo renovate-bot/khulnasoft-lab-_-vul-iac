@@ -1,7 +1,7 @@
 package s3
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/s3"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/s3"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

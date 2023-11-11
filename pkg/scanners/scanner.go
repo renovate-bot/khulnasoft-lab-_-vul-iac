@@ -5,7 +5,7 @@ import (
 	"io/fs"
 	"os"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/scan"
 )
 
 type WriteFileFS interface {

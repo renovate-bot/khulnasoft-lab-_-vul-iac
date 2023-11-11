@@ -3,12 +3,12 @@ package test
 import (
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 )
 
 func TestScanningJSON(t *testing.T) {
@@ -82,7 +82,7 @@ func TestScanningJSON(t *testing.T) {
 					},
 				},
 			}
-			reg := rules.Register(r1, nil)
+			reg := rules.Register(r1)
 			defer rules.Deregister(reg)
 
 			results := scanJSON(t, test.source)

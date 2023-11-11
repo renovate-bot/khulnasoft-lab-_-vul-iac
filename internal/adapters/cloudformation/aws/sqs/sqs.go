@@ -1,7 +1,7 @@
 package sqs
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/sqs"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/sqs"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

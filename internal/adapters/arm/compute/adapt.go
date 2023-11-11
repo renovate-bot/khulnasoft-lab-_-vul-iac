@@ -1,8 +1,8 @@
 package compute
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/compute"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/compute"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

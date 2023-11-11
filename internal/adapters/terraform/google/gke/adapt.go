@@ -1,10 +1,10 @@
 package gke
 
 import (
+	"github.com/aquasecurity/defsec/pkg/providers/google/gke"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/google/uuid"
-	"github.com/khulnasoft-lab/defsec/pkg/providers/google/gke"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -69,10 +69,6 @@ func (a *adapter) adaptCluster(resource *terraform.Block, module *terraform.Modu
 		},
 		LoggingService:    defsecTypes.StringDefault("logging.googleapis.com/kubernetes", resource.GetMetadata()),
 		MonitoringService: defsecTypes.StringDefault("monitoring.googleapis.com/kubernetes", resource.GetMetadata()),
-		PodSecurityPolicy: gke.PodSecurityPolicy{
-			Metadata: resource.GetMetadata(),
-			Enabled:  defsecTypes.BoolDefault(false, resource.GetMetadata()),
-		},
 		MasterAuth: gke.MasterAuth{
 			Metadata: resource.GetMetadata(),
 			ClientCertificate: gke.ClientCertificate{
@@ -124,12 +120,6 @@ func (a *adapter) adaptCluster(resource *terraform.Block, module *terraform.Modu
 	cluster.LoggingService = loggingAttr.AsStringValueOrDefault("logging.googleapis.com/kubernetes", resource)
 	monitoringServiceAttr := resource.GetAttribute("monitoring_service")
 	cluster.MonitoringService = monitoringServiceAttr.AsStringValueOrDefault("monitoring.googleapis.com/kubernetes", resource)
-
-	if policyBlock := resource.GetBlock("pod_security_policy_config"); policyBlock.IsNotNil() {
-		enabledAttr := policyBlock.GetAttribute("enabled")
-		cluster.PodSecurityPolicy.Metadata = policyBlock.GetMetadata()
-		cluster.PodSecurityPolicy.Enabled = enabledAttr.AsBoolValueOrDefault(false, policyBlock)
-	}
 
 	if masterBlock := resource.GetBlock("master_auth"); masterBlock.IsNotNil() {
 		cluster.MasterAuth = adaptMasterAuth(masterBlock)
@@ -243,10 +233,6 @@ func (a *adapter) adaptNodePool(resource *terraform.Block) {
 		},
 		LoggingService:    defsecTypes.StringDefault("", defsecTypes.NewUnmanagedMetadata()),
 		MonitoringService: defsecTypes.StringDefault("", defsecTypes.NewUnmanagedMetadata()),
-		PodSecurityPolicy: gke.PodSecurityPolicy{
-			Metadata: defsecTypes.NewUnmanagedMetadata(),
-			Enabled:  defsecTypes.BoolDefault(false, defsecTypes.NewUnmanagedMetadata()),
-		},
 		MasterAuth: gke.MasterAuth{
 			Metadata: defsecTypes.NewUnmanagedMetadata(),
 			ClientCertificate: gke.ClientCertificate{

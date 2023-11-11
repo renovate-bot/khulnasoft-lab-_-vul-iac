@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -14,6 +14,8 @@ import (
 func Test_OS_FS(t *testing.T) {
 	s := terraform.New(
 		options.ScannerWithDebug(os.Stderr),
+		options.ScannerWithEmbeddedPolicies(true),
+		options.ScannerWithEmbeddedLibraries(true),
 	)
 	results, err := s.ScanFS(context.TODO(), os.DirFS("tf"), "fail")
 	require.NoError(t, err)

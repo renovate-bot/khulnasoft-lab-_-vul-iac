@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 type Unmarshaller interface {

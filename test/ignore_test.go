@@ -2,13 +2,14 @@ package test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
+	"github.com/aquasecurity/defsec/pkg/providers"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,6 +17,7 @@ var exampleRule = scan.Rule{
 	Provider:  providers.AWSProvider,
 	Service:   "service",
 	ShortCode: "abc123",
+	AVDID:     "AWS-ABC-123",
 	Aliases:   []string{"aws-other-abc123"},
 	Severity:  severity.High,
 	CustomChecks: scan.CustomChecks{
@@ -381,7 +383,7 @@ resources = ["*"] # vul:ignore:aws-iam-enforce-mfa
 }
 `, assertLength: 0}}
 
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	for _, tc := range testCases {
@@ -393,7 +395,7 @@ resources = ["*"] # vul:ignore:aws-iam-enforce-mfa
 }
 
 func Test_IgnoreIgnoreWithExpiryAndWorkspaceAndWorkspaceSupplied(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -405,7 +407,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_IgnoreInline(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCL(t, fmt.Sprintf(`
@@ -417,7 +419,7 @@ func Test_IgnoreInline(t *testing.T) {
 }
 
 func Test_IgnoreIgnoreWithExpiryAndWorkspaceButWrongWorkspaceSupplied(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -430,7 +432,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_IgnoreWithAliasCodeStillIgnored(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -443,7 +445,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_VulIgnoreIgnoreWithExpiryAndWorkspaceAndWorkspaceSupplied(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -455,7 +457,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_VulIgnoreIgnoreWithExpiryAndWorkspaceButWrongWorkspaceSupplied(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -468,7 +470,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_VulIgnoreWithAliasCodeStillIgnored(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCLWithWorkspace(t, `
@@ -481,7 +483,7 @@ resource "bad" "my-rule" {
 }
 
 func Test_VulIgnoreInline(t *testing.T) {
-	reg := rules.Register(exampleRule, nil)
+	reg := rules.Register(exampleRule)
 	defer rules.Deregister(reg)
 
 	results := scanHCL(t, fmt.Sprintf(`
@@ -490,4 +492,38 @@ func Test_VulIgnoreInline(t *testing.T) {
 	}
 	  `, exampleRule.LongID()))
 	assert.Len(t, results.GetFailed(), 0)
+}
+
+func Test_IgnoreInlineByAVDID(t *testing.T) {
+	testCases := []struct {
+		input string
+	}{
+		{
+			input: `
+	resource "bad" "sample" {
+		  secure = false # tfsec:ignore:%s
+	}
+	  `,
+		},
+		{
+			input: `
+	resource "bad" "sample" {
+		  secure = false # vul:ignore:%s
+	}
+	  `,
+		},
+	}
+
+	for _, tc := range testCases {
+		tc := tc
+		for _, id := range []string{exampleRule.AVDID, strings.ToLower(exampleRule.AVDID), exampleRule.ShortCode, exampleRule.LongID()} {
+			id := id
+			t.Run("", func(t *testing.T) {
+				reg := rules.Register(exampleRule)
+				defer rules.Deregister(reg)
+				results := scanHCL(t, fmt.Sprintf(tc.input, id))
+				assert.Len(t, results.GetFailed(), 0)
+			})
+		}
+	}
 }

@@ -1,8 +1,8 @@
 package terraform
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/aws"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/azure"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/cloudstack"

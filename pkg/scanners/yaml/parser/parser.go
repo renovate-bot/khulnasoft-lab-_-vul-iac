@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/detection"
 	"gopkg.in/yaml.v3"
 )

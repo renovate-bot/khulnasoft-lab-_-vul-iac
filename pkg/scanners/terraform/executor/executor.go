@@ -3,18 +3,19 @@ package executor
 import (
 	"runtime"
 	"sort"
+	"strings"
 	"time"
 
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/framework"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/framework"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+
 	adapter "github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
-	"github.com/khulnasoft-lab/vul-policies/pkg/types"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 )
 
 // Executor scans HCL blocks by running all registered rules against them
@@ -105,12 +106,7 @@ func (e *Executor) Execute(modules terraform.Modules) (scan.Results, Metrics, er
 	}
 
 	checksTime := time.Now()
-	var registeredRules []types.RegisteredRule
-	a := rules.GetRegistered(e.frameworks...)
-	for _, r := range a {
-		rule := r
-		registeredRules = append(registeredRules, rule)
-	}
+	registeredRules := rules.GetRegistered(e.frameworks...)
 	e.debug.Log("Initialised %d rule(s).", len(registeredRules))
 
 	pool := NewPool(threads, registeredRules, modules, infra, e.ignoreCheckErrors, e.regoScanner, e.regoOnly)
@@ -135,6 +131,7 @@ func (e *Executor) Execute(modules terraform.Modules) (scan.Results, Metrics, er
 			allIDs := []string{
 				result.Rule().LongID(),
 				result.Rule().AVDID,
+				strings.ToLower(result.Rule().AVDID),
 				result.Rule().ShortCode,
 			}
 			allIDs = append(allIDs, result.Rule().Aliases...)

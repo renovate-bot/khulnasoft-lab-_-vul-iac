@@ -6,13 +6,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
-	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
-	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/resolver"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/liamg/memoryfs"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
+	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/resolver"
 )
 
 func createMetadata(targetFS fs.FS, filename string, start, end int, ref string, parent *types.Metadata) types.Metadata {

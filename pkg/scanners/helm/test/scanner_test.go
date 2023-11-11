@@ -8,7 +8,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/helm"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

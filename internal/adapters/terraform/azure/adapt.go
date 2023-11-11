@@ -1,8 +1,8 @@
 package azure
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/azure"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/azure/appservice"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/azure/authorization"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/azure/compute"

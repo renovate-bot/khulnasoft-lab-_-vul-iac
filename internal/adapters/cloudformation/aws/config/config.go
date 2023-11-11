@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/config"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/config"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

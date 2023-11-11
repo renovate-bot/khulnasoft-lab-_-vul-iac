@@ -1,8 +1,8 @@
 package github
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/github"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/github"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/github/branch_protections"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/github/repositories"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/github/secrets"

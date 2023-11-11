@@ -1,7 +1,7 @@
 package sam
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/sam"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/sam"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 func (p *parser) parseNumber(parentMetadata *types.Metadata) (Node, error) {

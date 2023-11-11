@@ -1,7 +1,7 @@
 package msk
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/msk"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/msk"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

@@ -3,14 +3,34 @@ package iam
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/iam"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/iam"
 	"github.com/liamg/iamgo"
 
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 )
+
+func defaultPolicyDocuemnt(offset bool) iam.Document {
+
+	builder := iamgo.NewPolicyBuilder()
+	builder.WithVersion("2012-10-17")
+
+	sb := iamgo.NewStatementBuilder()
+	sb.WithEffect(iamgo.EffectAllow)
+	sb.WithActions([]string{"ec2:Describe*"})
+	sb.WithResources([]string{"*"})
+
+	builder.WithStatement(sb.Build())
+
+	return iam.Document{
+		Parsed:   builder.Build(),
+		Metadata: defsecTypes.NewTestMetadata(),
+		IsOffset: offset,
+		HasRefs:  false,
+	}
+}
 
 func Test_adaptPolicies(t *testing.T) {
 	tests := []struct {
@@ -42,27 +62,60 @@ func Test_adaptPolicies(t *testing.T) {
 				{
 					Metadata: defsecTypes.NewTestMetadata(),
 					Name:     defsecTypes.String("test", defsecTypes.NewTestMetadata()),
-					Document: func() iam.Document {
+					Document: defaultPolicyDocuemnt(false),
+					Builtin:  defsecTypes.Bool(false, defsecTypes.NewTestMetadata()),
+				},
+			},
+		},
+		{
+			name: "aws_iam_policy_document with count Meta-Argument",
+			terraform: `locals {
+  sqs = [
+    "arn:aws:sqs:::*"
+  ]
+}
 
-						builder := iamgo.NewPolicyBuilder()
-						builder.WithVersion("2012-10-17")
+data "aws_iam_policy_document" "this" {
+  count = length(local.sqs)
+  statement {
+    sid = "test-${count.index}"
+    actions = [
+      "sqs:CancelMessageMoveTask"
+    ]
+    resources = [
+      "${local.sqs[count.index]}"
+    ]
+  }
+}
 
-						sb := iamgo.NewStatementBuilder()
+resource "aws_iam_policy" "this" {
+  count  = length(local.sqs)
+  name   = "test-${count.index}"
+  policy = data.aws_iam_policy_document.this[count.index].json
+}
+`,
+			expected: []iam.Policy{
+				{
+					Metadata: defsecTypes.NewTestMetadata(),
+					Name:     defsecTypes.String("test-0", defsecTypes.NewTestMetadata()),
+					Builtin:  defsecTypes.Bool(false, defsecTypes.NewTestMetadata()),
+					Document: iam.Document{
+						Metadata: defsecTypes.NewTestMetadata(),
+						IsOffset: true,
+						HasRefs:  false,
+						Parsed: func() iamgo.Document {
+							builder := iamgo.NewPolicyBuilder()
 
-						sb.WithEffect(iamgo.EffectAllow)
-						sb.WithActions([]string{"ec2:Describe*"})
-						sb.WithResources([]string{"*"})
+							sb := iamgo.NewStatementBuilder()
+							sb.WithEffect(iamgo.EffectAllow)
+							sb.WithSid("test-0")
+							sb.WithActions([]string{"sqs:CancelMessageMoveTask"})
+							sb.WithResources([]string{"arn:aws:sqs:::*"})
 
-						builder.WithStatement(sb.Build())
-
-						return iam.Document{
-							Parsed:   builder.Build(),
-							Metadata: defsecTypes.NewTestMetadata(),
-							IsOffset: false,
-							HasRefs:  false,
-						}
-					}(),
-					Builtin: defsecTypes.Bool(false, defsecTypes.NewTestMetadata()),
+							builder.WithStatement(sb.Build())
+							return builder.Build()
+						}(),
+					},
 				},
 			},
 		},

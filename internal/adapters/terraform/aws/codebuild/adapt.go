@@ -1,9 +1,9 @@
 package codebuild
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/codebuild"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/codebuild"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 func Adapt(modules terraform.Modules) codebuild.CodeBuild {

@@ -1,8 +1,8 @@
 package appservice
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/appservice"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/appservice"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

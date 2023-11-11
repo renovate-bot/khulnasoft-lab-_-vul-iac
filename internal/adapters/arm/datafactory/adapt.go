@@ -1,7 +1,7 @@
 package datafactory
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/datafactory"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/datafactory"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

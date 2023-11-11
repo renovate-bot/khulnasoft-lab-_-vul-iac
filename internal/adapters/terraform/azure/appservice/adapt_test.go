@@ -3,9 +3,9 @@ package appservice
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/appservice"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/appservice"
 
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 

@@ -1,8 +1,8 @@
 package branch_protections
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/github"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/github"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 )
 
 func Adapt(modules terraform.Modules) []github.BranchProtection {

@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws"
+	"github.com/aquasecurity/defsec/pkg/providers/aws"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/cloudformation/aws/apigateway"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/cloudformation/aws/athena"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/cloudformation/aws/cloudfront"

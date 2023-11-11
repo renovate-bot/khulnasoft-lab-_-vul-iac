@@ -1,7 +1,7 @@
 package authorization
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/authorization"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/authorization"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

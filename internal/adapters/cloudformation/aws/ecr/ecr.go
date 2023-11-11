@@ -1,7 +1,7 @@
 package ecr
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ecr"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ecr"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

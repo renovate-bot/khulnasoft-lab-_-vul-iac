@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
 )
 
 func loadBlocksFromFile(file sourceFile, moduleSource string) (hcl.Blocks, []terraform.Ignore, error) {

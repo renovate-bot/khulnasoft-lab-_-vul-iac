@@ -1,8 +1,8 @@
 package ec2
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ec2"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ec2"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

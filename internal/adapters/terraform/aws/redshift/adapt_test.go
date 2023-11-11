@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/redshift"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/redshift"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 

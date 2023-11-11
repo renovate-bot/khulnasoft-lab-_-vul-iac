@@ -6,8 +6,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/vul-iac/test/testutil"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/test/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/zclconf/go-cty/cty"
@@ -592,44 +592,6 @@ resource "something" "blah" {
 	assert.Equal(t, true, values[2].GetMetadata().IsResolvable())
 }
 
-func Test_DefaultRegistry(t *testing.T) {
-
-	fs := testutil.CreateFS(t, map[string]string{
-		"code/test.tf": `
-module "registry" {
-	source = "terraform-aws-modules/vpc/aws"
-}
-`,
-	})
-
-	parser := New(fs, "", OptionStopOnHCLError(true))
-	if err := parser.ParseFS(context.TODO(), "code"); err != nil {
-		t.Fatal(err)
-	}
-	modules, _, err := parser.EvaluateAll(context.TODO())
-	require.NoError(t, err)
-	require.Len(t, modules, 2)
-}
-
-func Test_SpecificRegistry(t *testing.T) {
-
-	fs := testutil.CreateFS(t, map[string]string{
-		"code/test.tf": `
-module "registry" {
-	source = "registry.terraform.io/terraform-aws-modules/vpc/aws"
-}
-`,
-	})
-
-	parser := New(fs, "", OptionStopOnHCLError(true))
-	if err := parser.ParseFS(context.TODO(), "code"); err != nil {
-		t.Fatal(err)
-	}
-	modules, _, err := parser.EvaluateAll(context.TODO())
-	require.NoError(t, err)
-	require.Len(t, modules, 2)
-}
-
 func Test_NullDefaultValueForVar(t *testing.T) {
 	fs := testutil.CreateFS(t, map[string]string{
 		"test.tf": `
@@ -720,8 +682,205 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this2" {
 	assert.Len(t, blocks, 2)
 
 	for _, block := range blocks {
-		attr := block.GetNestedAttribute("rule.apply_server_side_encryption_by_default.kms_master_key_id")
+		attr, parent := block.GetNestedAttribute("rule.apply_server_side_encryption_by_default.kms_master_key_id")
+		assert.Equal(t, "apply_server_side_encryption_by_default", parent.Type())
 		assert.NotNil(t, attr)
 		assert.NotEmpty(t, attr.Value().AsString())
 	}
+}
+
+func Test_IfConfigFsIsNotSet_ThenUseModuleFsForVars(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"main.tf": `
+variable "bucket_name" {
+	type = string
+}
+resource "aws_s3_bucket" "main" {
+	bucket = var.bucket_name
+}
+`,
+		"main.tfvars": `bucket_name = "test_bucket"`,
+	})
+	parser := New(fs, "",
+		OptionStopOnHCLError(true),
+		OptionWithTFVarsPaths("main.tfvars"),
+	)
+
+	if err := parser.ParseFS(context.TODO(), "."); err != nil {
+		t.Fatal(err)
+	}
+	modules, _, err := parser.EvaluateAll(context.TODO())
+	assert.NoError(t, err)
+	assert.Len(t, modules, 1)
+
+	rootModule := modules[0]
+	blocks := rootModule.GetResourcesByType("aws_s3_bucket")
+	require.Len(t, blocks, 1)
+
+	block := blocks[0]
+
+	assert.Equal(t, "test_bucket", block.GetAttribute("bucket").AsStringValueOrDefault("", block).Value())
+}
+
+func Test_ForEachRefToLocals(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"main.tf": `
+locals {
+  buckets = toset([
+    "foo",
+    "bar",
+  ])
+}
+
+resource "aws_s3_bucket" "this" {
+	for_each = local.buckets
+	bucket   = each.key
+}
+`,
+	})
+
+	parser := New(fs, "", OptionStopOnHCLError(true))
+	if err := parser.ParseFS(context.TODO(), "."); err != nil {
+		t.Fatal(err)
+	}
+	modules, _, err := parser.EvaluateAll(context.TODO())
+	assert.NoError(t, err)
+	assert.Len(t, modules, 1)
+
+	rootModule := modules[0]
+
+	blocks := rootModule.GetResourcesByType("aws_s3_bucket")
+	assert.Len(t, blocks, 2)
+
+	for _, block := range blocks {
+		attr := block.GetAttribute("bucket")
+		require.NotNil(t, attr)
+		assert.Contains(t, []string{"foo", "bar"}, attr.AsStringValueOrDefault("", block).Value())
+	}
+}
+
+func Test_ForEachRefToVariableWithDefault(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"main.tf": `
+variable "buckets" {
+	type    = set(string)
+	default = ["foo", "bar"]
+}
+
+resource "aws_s3_bucket" "this" {
+	for_each = var.buckets
+	bucket   = each.key
+}
+`,
+	})
+
+	parser := New(fs, "", OptionStopOnHCLError(true))
+	if err := parser.ParseFS(context.TODO(), "."); err != nil {
+		t.Fatal(err)
+	}
+	modules, _, err := parser.EvaluateAll(context.TODO())
+	assert.NoError(t, err)
+	assert.Len(t, modules, 1)
+
+	rootModule := modules[0]
+
+	blocks := rootModule.GetResourcesByType("aws_s3_bucket")
+	assert.Len(t, blocks, 2)
+
+	for _, block := range blocks {
+		attr := block.GetAttribute("bucket")
+		require.NotNil(t, attr)
+		assert.Contains(t, []string{"foo", "bar"}, attr.AsStringValueOrDefault("", block).Value())
+	}
+}
+
+func Test_ForEachRefToVariableFromFile(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"main.tf": `
+variable "policy_rules" {
+  type = object({
+    secure_tags = optional(map(object({
+      session_matcher        = optional(string)
+      priority               = number
+      enabled                = optional(bool, true)
+    })), {})
+  })
+}
+
+resource "google_network_security_gateway_security_policy_rule" "secure_tag_rules" {
+  for_each               = var.policy_rules.secure_tags
+  provider               = google-beta
+  project                = "test"
+  name                   = each.key
+  enabled                = each.value.enabled
+  priority               = each.value.priority
+  session_matcher        = each.value.session_matcher
+}
+`,
+		"main.tfvars": `
+policy_rules = {
+  secure_tags = {
+    secure-tag-1 = {
+      session_matcher = "host() != 'google.com'"
+      priority        = 1001
+    }
+  }
+}
+`,
+	})
+
+	parser := New(fs, "", OptionStopOnHCLError(true))
+	parser.SetTFVarsPaths("main.tfvars")
+	if err := parser.ParseFS(context.TODO(), "."); err != nil {
+		t.Fatal(err)
+	}
+	modules, _, err := parser.EvaluateAll(context.TODO())
+	assert.NoError(t, err)
+	assert.Len(t, modules, 1)
+
+	rootModule := modules[0]
+
+	blocks := rootModule.GetResourcesByType("google_network_security_gateway_security_policy_rule")
+	assert.Len(t, blocks, 1)
+
+	block := blocks[0]
+
+	assert.Equal(t, "secure-tag-1", block.GetAttribute("name").AsStringValueOrDefault("", block).Value())
+	assert.Equal(t, true, block.GetAttribute("enabled").AsBoolValueOrDefault(false, block).Value())
+	assert.Equal(t, "host() != 'google.com'", block.GetAttribute("session_matcher").AsStringValueOrDefault("", block).Value())
+	assert.Equal(t, 1001, block.GetAttribute("priority").AsIntValueOrDefault(0, block).Value())
+}
+
+func TestDataSourceWithCountMetaArgument(t *testing.T) {
+	fs := testutil.CreateFS(t, map[string]string{
+		"main.tf": `
+
+data "http" "example" {
+  count = 2
+}
+`,
+	})
+
+	parser := New(fs, "", OptionStopOnHCLError(true))
+	require.NoError(t, parser.ParseFS(context.TODO(), "."))
+
+	modules, _, err := parser.EvaluateAll(context.TODO())
+	assert.NoError(t, err)
+	assert.Len(t, modules, 1)
+
+	rootModule := modules[0]
+
+	httpDataSources := rootModule.GetDatasByType("http")
+	assert.Len(t, httpDataSources, 2)
+
+	var labels []string
+	for _, b := range httpDataSources {
+		labels = append(labels, b.Label())
+	}
+
+	expectedLabels := []string{
+		`http.example[0]`,
+		`http.example[1]`,
+	}
+	assert.Equal(t, expectedLabels, labels)
 }

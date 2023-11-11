@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/detection"
 )
 

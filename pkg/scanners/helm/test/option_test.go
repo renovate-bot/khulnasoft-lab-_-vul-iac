@@ -7,10 +7,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/helm/parser"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/helm/parser"
 )
 
 func Test_helm_parser_with_options_with_values_file(t *testing.T) {

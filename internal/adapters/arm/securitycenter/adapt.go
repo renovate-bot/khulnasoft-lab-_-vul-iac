@@ -1,7 +1,7 @@
 package securitycenter
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/securitycenter"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/securitycenter"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

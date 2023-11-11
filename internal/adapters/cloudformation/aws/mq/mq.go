@@ -1,7 +1,7 @@
 package mq
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/mq"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/mq"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

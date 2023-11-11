@@ -3,10 +3,10 @@ package sqs
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/iam"
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/sqs"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/iam"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/sqs"
 
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 

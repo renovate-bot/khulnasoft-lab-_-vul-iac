@@ -1,7 +1,7 @@
 package cloudtrail
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/cloudtrail"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/cloudtrail"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

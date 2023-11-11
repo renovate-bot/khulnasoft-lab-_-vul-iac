@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/severity"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/severity"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform/parser"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -36,7 +36,7 @@ var panicRule = scan.Rule{
 
 func Test_PanicInCheckNotAllowed(t *testing.T) {
 
-	reg := rules.Register(panicRule, nil)
+	reg := rules.Register(panicRule)
 	defer rules.Deregister(reg)
 
 	fs := testutil.CreateFS(t, map[string]string{
@@ -58,7 +58,7 @@ resource "problem" "this" {
 
 func Test_PanicInCheckAllowed(t *testing.T) {
 
-	reg := rules.Register(panicRule, nil)
+	reg := rules.Register(panicRule)
 	defer rules.Deregister(reg)
 
 	fs := testutil.CreateFS(t, map[string]string{
@@ -80,7 +80,7 @@ resource "problem" "this" {
 
 func Test_PanicNotInCheckNotIncludePassed(t *testing.T) {
 
-	reg := rules.Register(panicRule, nil)
+	reg := rules.Register(panicRule)
 	defer rules.Deregister(reg)
 
 	fs := testutil.CreateFS(t, map[string]string{
@@ -102,7 +102,7 @@ resource "problem" "this" {
 
 func Test_PanicNotInCheckNotIncludePassedStopOnError(t *testing.T) {
 
-	reg := rules.Register(panicRule, nil)
+	reg := rules.Register(panicRule)
 	defer rules.Deregister(reg)
 
 	fs := testutil.CreateFS(t, map[string]string{

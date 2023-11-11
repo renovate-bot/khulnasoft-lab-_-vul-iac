@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 type parser struct {

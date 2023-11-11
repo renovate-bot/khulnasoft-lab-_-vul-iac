@@ -1,7 +1,7 @@
 package accessanalyzer
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/accessanalyzer"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/accessanalyzer"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

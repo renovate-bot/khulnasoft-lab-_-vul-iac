@@ -3,9 +3,9 @@ package compute
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/digitalocean/compute"
+	"github.com/aquasecurity/defsec/pkg/providers/digitalocean/compute"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 

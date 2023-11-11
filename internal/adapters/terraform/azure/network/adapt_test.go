@@ -3,9 +3,9 @@ package network
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/network"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/network"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 

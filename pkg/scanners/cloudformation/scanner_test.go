@@ -4,12 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/framework"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/vul-iac/test/testutil"
+	"github.com/aquasecurity/defsec/pkg/framework"
+	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 )
 
 func Test_BasicScan(t *testing.T) {

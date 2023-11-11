@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 var escapes = map[rune]string{

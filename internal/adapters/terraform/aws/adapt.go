@@ -1,8 +1,8 @@
 package aws
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/aws"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/aws/apigateway"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/aws/athena"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/aws/cloudfront"

@@ -13,7 +13,7 @@ type cacheResolver struct{}
 
 var Cache = &cacheResolver{}
 
-const tempDirName = ".aqua"
+const tempDirName = ".khulnasoft"
 
 func locateCacheFS() (fs.FS, error) {
 	dir, err := locateCacheDir()

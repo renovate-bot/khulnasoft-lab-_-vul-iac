@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/olekukonko/tablewriter"
 )
 

@@ -8,9 +8,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/types"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/arm/parser/armjson"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/resolver"

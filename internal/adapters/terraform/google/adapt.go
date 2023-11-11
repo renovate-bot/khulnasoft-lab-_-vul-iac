@@ -1,8 +1,8 @@
 package google
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/google"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/google"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/google/bigquery"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/google/compute"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/google/dns"

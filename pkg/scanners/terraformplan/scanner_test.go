@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

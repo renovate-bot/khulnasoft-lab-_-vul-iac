@@ -3,9 +3,9 @@ package ecs
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ecs"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ecs"
 
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 

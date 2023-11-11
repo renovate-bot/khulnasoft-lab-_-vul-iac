@@ -1,8 +1,8 @@
 package cloudstack
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/cloudstack"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
+	"github.com/aquasecurity/defsec/pkg/providers/cloudstack"
+	"github.com/aquasecurity/defsec/pkg/terraform"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/cloudstack/compute"
 )
 

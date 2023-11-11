@@ -1,7 +1,7 @@
 package helm
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/helm/parser"
 )
 

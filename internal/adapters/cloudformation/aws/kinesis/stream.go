@@ -1,8 +1,8 @@
 package kinesis
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/kinesis"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/kinesis"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

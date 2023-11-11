@@ -3,7 +3,7 @@ package armjson
 import (
 	"fmt"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 func (p *parser) parseArray(parentMetadata *types.Metadata) (Node, error) {

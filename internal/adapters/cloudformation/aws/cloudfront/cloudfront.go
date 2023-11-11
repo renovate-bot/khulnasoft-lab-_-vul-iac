@@ -1,7 +1,7 @@
 package cloudfront
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/cloudfront"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/cloudfront"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

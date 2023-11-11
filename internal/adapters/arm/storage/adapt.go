@@ -3,10 +3,10 @@ package storage
 import (
 	"strings"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/storage"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/storage"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/types"
 )
 
 func Adapt(deployment azure.Deployment) storage.Storage {

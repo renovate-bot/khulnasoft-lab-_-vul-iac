@@ -3,11 +3,11 @@ package executor
 import (
 	"io"
 
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/framework"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/framework"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego"
 )
 
 type Option func(s *Executor)

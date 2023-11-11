@@ -17,8 +17,8 @@ import (
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/arm/storage"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/arm/synapse"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/providers/azure"
+	"github.com/aquasecurity/defsec/pkg/state"
 	scanner "github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

@@ -3,9 +3,9 @@ package database
 import (
 	"testing"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/database"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/database"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 	"github.com/stretchr/testify/assert"

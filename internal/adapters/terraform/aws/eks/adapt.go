@@ -1,9 +1,9 @@
 package eks
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/eks"
-	"github.com/khulnasoft-lab/defsec/pkg/terraform"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/eks"
+	"github.com/aquasecurity/defsec/pkg/terraform"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 )
 
 func Adapt(modules terraform.Modules) eks.EKS {

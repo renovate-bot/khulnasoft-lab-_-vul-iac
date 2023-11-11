@@ -4,8 +4,8 @@ import (
 	"context"
 	"io/fs"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/arm"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation"

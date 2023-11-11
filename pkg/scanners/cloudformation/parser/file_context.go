@@ -1,7 +1,7 @@
 package parser
 
 import (
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 )
 
 type SourceFormat string
@@ -50,4 +50,12 @@ func (t *FileContext) Metadata() defsecTypes.Metadata {
 	rng := defsecTypes.NewRange(t.filepath, 1, len(t.lines), "", nil)
 
 	return defsecTypes.NewMetadata(rng, NewCFReference("Template", rng).String())
+}
+
+func (t *FileContext) OverrideParameters(params map[string]any) {
+	for key := range t.Parameters {
+		if val, ok := params[key]; ok {
+			t.Parameters[key].UpdateDefault(val)
+		}
+	}
 }

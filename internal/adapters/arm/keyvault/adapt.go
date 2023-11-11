@@ -1,7 +1,7 @@
 package keyvault
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/keyvault"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/keyvault"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

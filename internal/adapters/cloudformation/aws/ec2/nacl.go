@@ -3,9 +3,9 @@ package ec2
 import (
 	"strconv"
 
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/ec2"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/ec2"
 
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )

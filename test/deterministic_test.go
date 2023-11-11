@@ -4,16 +4,16 @@ import (
 	"context"
 	"testing"
 
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform/executor"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraform/parser"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_DeterministicResults(t *testing.T) {
 
-	reg := rules.Register(badRule, nil)
+	reg := rules.Register(badRule)
 	defer rules.Deregister(reg)
 
 	fs := testutil.CreateFS(t, map[string]string{

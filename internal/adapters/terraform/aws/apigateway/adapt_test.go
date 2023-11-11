@@ -3,10 +3,10 @@ package apigateway
 import (
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/apigateway"
-	v1 "github.com/khulnasoft-lab/defsec/pkg/providers/aws/apigateway/v1"
-	v2 "github.com/khulnasoft-lab/defsec/pkg/providers/aws/apigateway/v2"
-	defsecTypes "github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/apigateway"
+	v1 "github.com/aquasecurity/defsec/pkg/providers/aws/apigateway/v1"
+	v2 "github.com/aquasecurity/defsec/pkg/providers/aws/apigateway/v2"
+	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/tftestutil"
 	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 	"github.com/stretchr/testify/assert"

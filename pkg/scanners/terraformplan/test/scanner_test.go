@@ -5,11 +5,12 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraformplan"
+	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/terraformplan"
 )
 
 func Test_Scanning_Plan(t *testing.T) {

@@ -8,18 +8,19 @@ import (
 	"io/fs"
 	"sync"
 
-	"github.com/khulnasoft-lab/defsec/pkg/debug"
-	"github.com/khulnasoft-lab/defsec/pkg/framework"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/defsec/pkg/state"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	"github.com/aquasecurity/defsec/pkg/debug"
+	"github.com/aquasecurity/defsec/pkg/framework"
+	"github.com/aquasecurity/defsec/pkg/scan"
+	"github.com/aquasecurity/defsec/pkg/state"
+	"github.com/aquasecurity/defsec/pkg/types"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/arm"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rules"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure/arm/parser"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rules"
 )
 
 var _ scanners.FSScanner = (*Scanner)(nil)

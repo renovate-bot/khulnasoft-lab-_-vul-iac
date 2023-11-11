@@ -5,15 +5,15 @@ import (
 	"context"
 	"testing"
 
-	"github.com/khulnasoft-lab/defsec/pkg/framework"
-	"github.com/khulnasoft-lab/defsec/pkg/scan"
-	"github.com/khulnasoft-lab/defsec/pkg/scanners/options"
-	"github.com/khulnasoft-lab/vul-iac/test/testutil"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego"
-	"github.com/khulnasoft-lab/vul-policies/pkg/rego/schemas"
-	"github.com/khulnasoft-lab/vul-policies/rules"
+	"github.com/aquasecurity/defsec/pkg/framework"
+	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/defsec/pkg/scanners/options"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego"
+	"github.com/khulnasoft-lab/vul-iac/pkg/rego/schemas"
+	"github.com/khulnasoft-lab/vul-iac/test/testutil"
 )
 
 const DS006PolicyWithDockerfileSchema = `# METADATA
@@ -554,7 +554,7 @@ res := true
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			regoMap := make(map[string]string)
-			libs, err := rego.RecurseEmbeddedModules(rules.EmbeddedLibraryFileSystem, ".")
+			libs, err := rego.LoadEmbeddedLibraries()
 			require.NoError(t, err)
 			for name, library := range libs {
 				regoMap["/rules/"+name] = library.String()

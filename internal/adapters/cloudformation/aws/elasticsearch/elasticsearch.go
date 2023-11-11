@@ -1,7 +1,7 @@
 package elasticsearch
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/aws/elasticsearch"
+	"github.com/aquasecurity/defsec/pkg/providers/aws/elasticsearch"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

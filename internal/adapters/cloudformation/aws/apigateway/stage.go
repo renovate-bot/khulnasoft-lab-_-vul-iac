@@ -1,8 +1,8 @@
 package apigateway
 
 import (
-	v2 "github.com/khulnasoft-lab/defsec/pkg/providers/aws/apigateway/v2"
-	"github.com/khulnasoft-lab/defsec/pkg/types"
+	v2 "github.com/aquasecurity/defsec/pkg/providers/aws/apigateway/v2"
+	"github.com/aquasecurity/defsec/pkg/types"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/cloudformation/parser"
 )
 

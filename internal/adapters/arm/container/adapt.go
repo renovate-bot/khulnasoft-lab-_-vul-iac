@@ -1,7 +1,7 @@
 package container
 
 import (
-	"github.com/khulnasoft-lab/defsec/pkg/providers/azure/container"
+	"github.com/aquasecurity/defsec/pkg/providers/azure/container"
 	"github.com/khulnasoft-lab/vul-iac/pkg/scanners/azure"
 )
 

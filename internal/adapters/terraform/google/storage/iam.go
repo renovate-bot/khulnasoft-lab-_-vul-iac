@@ -1,7 +1,7 @@
 package storage
 
 import (
-	iamTypes "github.com/khulnasoft-lab/defsec/pkg/providers/google/iam"
+	iamTypes "github.com/aquasecurity/defsec/pkg/providers/google/iam"
 	"github.com/khulnasoft-lab/vul-iac/internal/adapters/terraform/google/iam"
 )
 
