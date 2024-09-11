@@ -30,7 +30,7 @@ require (
 	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea
 	golang.org/x/text v0.13.0
 	gopkg.in/yaml.v3 v3.0.1
-	helm.sh/helm/v3 v3.13.0
+	helm.sh/helm/v3 v3.14.2
 	k8s.io/utils v0.0.0-20230406110748-d93618cff8a2
 )
 
