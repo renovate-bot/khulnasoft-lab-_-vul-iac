@@ -19,7 +19,7 @@ require (
 	github.com/liamg/memoryfs v1.6.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/moby/buildkit v0.11.6
+	github.com/moby/buildkit v0.12.5
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/open-policy-agent/opa v0.57.0
 	github.com/spf13/cobra v1.7.0
