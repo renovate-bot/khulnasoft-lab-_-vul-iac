@@ -31,7 +31,7 @@ require (
 	golang.org/x/text v0.13.0
 	gopkg.in/yaml.v3 v3.0.1
 	helm.sh/helm/v3 v3.13.0
-	k8s.io/utils v0.0.0-20230406110748-d93618cff8a2
+	k8s.io/utils 0af2bda4dd1d
 )
 
 require (
